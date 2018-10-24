@@ -22,6 +22,7 @@
 		B594C54D2180720A00E9691F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B594C54C2180720A00E9691F /* HomeViewController.swift */; };
 		B594C54F2180722500E9691F /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B594C54E2180722500E9691F /* HomeViewModel.swift */; };
 		B5ABA13721809A6D001D0DDF /* HNB exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ABA13621809A6D001D0DDF /* HNB exchange.swift */; };
+		B5ABA1412180AFF2001D0DDF /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ABA1402180AFF2001D0DDF /* ErrorAlert.swift */; };
 		B5E793792180992A00B4207C /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E793782180992A00B4207C /* API.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		B594C54C2180720A00E9691F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B594C54E2180722500E9691F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		B5ABA13621809A6D001D0DDF /* HNB exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HNB exchange.swift"; sourceTree = "<group>"; };
+		B5ABA1402180AFF2001D0DDF /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
 		B5E793782180992A00B4207C /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,6 +136,7 @@
 			children = (
 				B594C53B2180707700E9691F /* DataWrapper.swift */,
 				B594C53D2180709900E9691F /* GeneralError.swift */,
+				B5ABA1402180AFF2001D0DDF /* ErrorAlert.swift */,
 			);
 			path = ErrorHandling;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				B594C53A2180704E00E9691F /* CoordinatorDelegate.swift in Sources */,
 				B5E793792180992A00B4207C /* API.swift in Sources */,
 				B594C53E2180709900E9691F /* GeneralError.swift in Sources */,
+				B5ABA1412180AFF2001D0DDF /* ErrorAlert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,7 +11,8 @@ import UIKit
 import RxSwift
 
 class HomeViewModel: HomeViewModelProtocol {
-    
+    var fromValue: String = .empty
+    var toValue: String = .empty
     var downloadTrigger: ReplaySubject<Bool>
     var dataIsReady: PublishSubject<Bool>
     var HNBdata: HNB = []
@@ -44,6 +45,31 @@ class HomeViewModel: HomeViewModelProtocol {
         downloadTrigger.onNext(true)
     }
     
+    
+    func calculate(from: String, to: String, value: String) -> String {
+        var result: String = .empty
+        var number: Double!
+        if (from == "HRK") {
+            for element in HNBdata {
+                if (element.currencyCode == to) {
+                    guard let valueNumber = Double(value) else {return ""}
+                    guard let rateNumber = Double(element.medianRate) else {return ""}
+                    number = valueNumber / rateNumber
+                }
+            }
+        }else {
+            for element in HNBdata {
+                if (element.currencyCode == from) {
+                    guard let valueNumber = Double(value) else {return ""}
+                    guard let rateNumber = Double(element.medianRate) else {return ""}
+                    number = valueNumber * rateNumber
+                }
+            }
+        }
+        result = String(format:"%f", number)
+        return result
+    }
+    
 }
 
 protocol HomeViewModelProtocol {
@@ -52,4 +78,7 @@ protocol HomeViewModelProtocol {
     var HNBdata: HNB {get}
     func startDownload()
     func getDataFromApi() -> Disposable
+    var fromValue: String {get set}
+    var toValue: String {get set}
+    func calculate(from: String, to: String, value: String) -> String
 }

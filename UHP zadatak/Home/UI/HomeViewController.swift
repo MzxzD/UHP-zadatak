@@ -13,11 +13,7 @@ import RxSwift
 class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     let disposeBag = DisposeBag()
     var alert = UIAlertController()
-    
     var homeViewModel: HomeViewModelProtocol!
-    
-    let randomArray = ["blag", "Blah", "wah?"]
-    
     let picker = UIPickerView()
     var activeTextField: UITextField!
     
@@ -39,6 +35,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "To value"
+        textField.keyboardType = UIKeyboardType.decimalPad
         return textField
     }()
     
@@ -49,12 +46,11 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         return label
     }()
     let calculateButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 50, y: 50, width: 100, height: 50))
+        let button = UIButton(frame: CGRect(x: 50, y: 50, width: 150, height: 50))
         button.setTitle("Calculate", for: .normal)
         button.backgroundColor = .blue
-        //        button.setImage(#imageLiteral(resourceName: "search_icon"), for: .normal)
-        //        button.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+      
         return button
         
         
@@ -64,7 +60,6 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         super.viewDidAppear(animated)
         homeViewModel.startDownload()
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,13 +104,16 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         activeTextField = textField
+        
         switch textField {
         case fromValueTextField:
-            print("fromFieldSelected")
+            fromValueTextField.text = .empty
+            self.toValueTextField.text = "HRK"
         case toValueTextField:
-            print("ToFieldSelected")
+            toValueTextField.text = .empty
+            self.fromValueTextField.text = "HRK"
         default:
-            print("Default")
+            print("default")
         }
         
         picker.reloadAllComponents()
@@ -164,6 +162,18 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         activeTextField.resignFirstResponder()
     }
     
+    @objc func calculateButtonTapped() {
+        if (self.fromValueTextField.text != .empty && self.toValueTextField.text != .empty && self.inputTextField.text != .empty){
+            
+            resultLabel.text = homeViewModel.calculate(from: fromValueTextField.text!, to: toValueTextField.text!, value: inputTextField.text!)
+            
+        }else {
+            ErrorAlert().alert(viewToPresent: self, title: "No values", message: "Some of the Input Values aren't filled!")
+        }
+    
+    
+    }
+    
     
     private func setupView() {
         view.backgroundColor = .white
@@ -196,6 +206,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         //        inputTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         self.view.addSubview(calculateButton)
+        calculateButton.addTarget(self, action: #selector(calculateButtonTapped), for: .touchUpInside)
         calculateButton.topAnchor.constraint(equalTo: inputTextField.bottomAnchor, constant: 16).isActive = true
         calculateButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
