@@ -16,6 +16,7 @@ class HomeViewModel: HomeViewModelProtocol {
     var downloadTrigger: ReplaySubject<Bool>
     var dataIsReady: PublishSubject<Bool>
     var HNBdata: HNB = []
+    let rateArray: [String] = ["Selling Rate", "Buying Rate", "Median Rate"]
     
     init() {
         self.dataIsReady = PublishSubject<Bool>()
@@ -46,22 +47,38 @@ class HomeViewModel: HomeViewModelProtocol {
     }
     
     
-    func calculate(from: String, to: String, value: String) -> String {
+    func calculate(from: String, to: String, value: String, rate: String) -> String {
         var result: String = .empty
         var number: Double!
         if (from == "HRK") {
             for element in HNBdata {
                 if (element.currencyCode == to) {
+                    var numberToCalculate: String = .empty
                     guard let valueNumber = Double(value) else {return ""}
-                    guard let rateNumber = Double(element.medianRate) else {return ""}
+                    if (rate == "Selling Rate"){
+                        numberToCalculate = element.sellingRate
+                    }else if (rate == "Buying Rate"){
+                        numberToCalculate = element.buyingRate
+                    }else {
+                        numberToCalculate = element.medianRate
+                    }
+                    guard let rateNumber = Double(numberToCalculate) else {return ""}
                     number = valueNumber / rateNumber
                 }
             }
         }else {
             for element in HNBdata {
                 if (element.currencyCode == from) {
+                    var numberToCalculate: String = .empty
                     guard let valueNumber = Double(value) else {return ""}
-                    guard let rateNumber = Double(element.medianRate) else {return ""}
+                    if (rate == "Selling Rate"){
+                        numberToCalculate = element.sellingRate
+                    }else if (rate == "Buying Rate"){
+                        numberToCalculate = element.buyingRate
+                    }else {
+                        numberToCalculate = element.medianRate
+                    }
+                    guard let rateNumber = Double(numberToCalculate) else {return ""}
                     number = valueNumber * rateNumber
                 }
             }
@@ -80,5 +97,6 @@ protocol HomeViewModelProtocol {
     func getDataFromApi() -> Disposable
     var fromValue: String {get set}
     var toValue: String {get set}
-    func calculate(from: String, to: String, value: String) -> String
+    func calculate(from: String, to: String, value: String, rate: String) -> String
+    var rateArray: [String] {get}
 }

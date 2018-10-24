@@ -24,6 +24,13 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         return textField
     }()
     
+    var rateTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Rate"
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
     var fromValueTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -112,6 +119,8 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         case toValueTextField:
             toValueTextField.text = .empty
             self.fromValueTextField.text = "HRK"
+        case rateTextField:
+            print("Rate Text field")
         default:
             print("default")
         }
@@ -125,16 +134,52 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return homeViewModel.HNBdata.count
+        let count: Int!
+        
+        switch activeTextField {
+        case fromValueTextField:
+            count = homeViewModel.HNBdata.count
+        case toValueTextField:
+           count = homeViewModel.HNBdata.count
+        case rateTextField:
+            count = homeViewModel.rateArray.count
+        default:
+            count = 0
+        }
+ 
+        return count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return homeViewModel.HNBdata[row].currencyCode
+        let name: String!
+        
+        switch activeTextField {
+        case fromValueTextField:
+             name = homeViewModel.HNBdata[row].currencyCode
+        case toValueTextField:
+             name = homeViewModel.HNBdata[row].currencyCode
+        case rateTextField:
+            name = homeViewModel.rateArray[row]
+        default:
+            name = .empty
+        }
+
+        return name
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print(homeViewModel.HNBdata[row].currencyCode)
-        activeTextField.text = homeViewModel.HNBdata[row].currencyCode
+        
+        switch activeTextField {
+        case fromValueTextField:
+            activeTextField.text = homeViewModel.HNBdata[row].currencyCode
+        case toValueTextField:
+            activeTextField.text = homeViewModel.HNBdata[row].currencyCode
+        case rateTextField:
+           activeTextField.text = homeViewModel.rateArray[row]
+        default:
+            print("default")
+        }
+
     }
     
     func createToolbar() {
@@ -150,6 +195,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         
         fromValueTextField.inputAccessoryView = toolbar
         toValueTextField.inputAccessoryView = toolbar
+        rateTextField.inputAccessoryView = toolbar
     }
     
     
@@ -163,9 +209,9 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     }
     
     @objc func calculateButtonTapped() {
-        if (self.fromValueTextField.text != .empty && self.toValueTextField.text != .empty && self.inputTextField.text != .empty){
+        if (self.fromValueTextField.text != .empty && self.toValueTextField.text != .empty && self.inputTextField.text != .empty && self.rateTextField.text != .empty){
             
-            resultLabel.text = homeViewModel.calculate(from: fromValueTextField.text!, to: toValueTextField.text!, value: inputTextField.text!)
+            resultLabel.text = homeViewModel.calculate(from: fromValueTextField.text!, to: toValueTextField.text!, value: inputTextField.text!, rate: rateTextField.text!)
             
         }else {
             ErrorAlert().alert(viewToPresent: self, title: "No values", message: "Some of the Input Values aren't filled!")
@@ -181,11 +227,13 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         
         fromValueTextField.delegate = self
         toValueTextField.delegate = self
+        rateTextField.delegate = self
         picker.delegate = self
         picker.dataSource = self
         
         fromValueTextField.inputView = picker
         toValueTextField.inputView = picker
+        rateTextField.inputView = picker
         
         createToolbar()
         
@@ -194,10 +242,18 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         fromValueTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
         fromValueTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
+        self.view.addSubview(rateTextField)
+        rateTextField.topAnchor.constraint(equalTo: fromValueTextField.topAnchor).isActive = true
+        rateTextField.leadingAnchor.constraint(equalTo: fromValueTextField.trailingAnchor, constant: 8).isActive = true
+        rateTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        rateTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//        rateTextField.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        
         self.view.addSubview(toValueTextField)
         toValueTextField.topAnchor.constraint(equalTo: fromValueTextField.topAnchor).isActive = true
-        toValueTextField.leadingAnchor.constraint(equalTo: fromValueTextField.trailingAnchor, constant: 10).isActive = true
-        toValueTextField.trailingAnchor.constraint(equalTo: view!.trailingAnchor, constant: -8).isActive = true
+//        toValueTextField.leadingAnchor.constraint(equalTo: rateTextField.trailingAnchor, constant: 10).isActive = true
+        toValueTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
         toValueTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         self.view.addSubview(inputTextField)
