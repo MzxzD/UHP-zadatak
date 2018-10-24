@@ -6,6 +6,7 @@ def shared_pods
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'R.swift','~> 5.0.0.alpha'
+  pod 'RxAlamofire'
 end
 
 target 'UHP zadatak' do

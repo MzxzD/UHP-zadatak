@@ -14,7 +14,8 @@ class HomeCoordinator: Coordinator{
     init (presenter: UINavigationController){
         self.presenter = presenter
         let controller = HomeViewController()
-        //Add ViewModel initialization.
+        let VM = HomeViewModel()
+        controller.homeViewModel = VM
         self.controller = controller
     }
     func start() {

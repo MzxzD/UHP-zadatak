@@ -11,7 +11,10 @@ import Alamofire
 import RxSwift
 
 class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
-
+    let disposeBag = DisposeBag()
+    var alert = UIAlertController()
+    
+    var homeViewModel: HomeViewModelProtocol!
     
     let randomArray = ["blag", "Blah", "wah?"]
     
@@ -57,12 +60,52 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         
     }()
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        homeViewModel.startDownload()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setupView()
-        self.title = "UHP Zadatak"
+        initializeDataObservable()
+        homeViewModel.getDataFromApi().disposed(by: disposeBag)
+    
     }
+    
+    
+    
+    //    func initializeError() {
+    //        let errorObserver = homeViewModel.errorOccured
+    //        errorObserver
+    //            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+    //            .observeOn(MainScheduler.instance)
+    //            .subscribe(onNext: { (event) in
+    //                if event {
+    //                    print("error")
+    //                    // ERROR OCCURED
+    //                }
+    //            })
+    //            .disposed(by: disposeBag)
+    //    }
+    
+    
+    func initializeDataObservable(){
+        print("DataIsReadyObserver")
+        let observer = homeViewModel.dataIsReady
+        observer
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] (event) in
+                
+                if event {
+                    self.setupView()
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         activeTextField = textField
@@ -84,16 +127,16 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return randomArray.count
+        return homeViewModel.HNBdata.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return randomArray[row]
+        return homeViewModel.HNBdata[row].currencyCode
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print(randomArray[row])
-        activeTextField.text = randomArray[row]
+        print(homeViewModel.HNBdata[row].currencyCode)
+        activeTextField.text = homeViewModel.HNBdata[row].currencyCode
     }
     
     func createToolbar() {
@@ -124,6 +167,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     
     private func setupView() {
         view.backgroundColor = .white
+        self.title = "UHP Zadatak"
         
         fromValueTextField.delegate = self
         toValueTextField.delegate = self
@@ -149,7 +193,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         self.view.addSubview(inputTextField)
         inputTextField.topAnchor.constraint(equalTo: fromValueTextField.bottomAnchor, constant: 8).isActive = true
         inputTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        inputTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        //        inputTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         self.view.addSubview(calculateButton)
         calculateButton.topAnchor.constraint(equalTo: inputTextField.bottomAnchor, constant: 16).isActive = true

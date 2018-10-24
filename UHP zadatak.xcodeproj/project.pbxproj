@@ -21,6 +21,8 @@
 		B594C54B218071DB00E9691F /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B594C54A218071DB00E9691F /* HomeCoordinator.swift */; };
 		B594C54D2180720A00E9691F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B594C54C2180720A00E9691F /* HomeViewController.swift */; };
 		B594C54F2180722500E9691F /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B594C54E2180722500E9691F /* HomeViewModel.swift */; };
+		B5ABA13721809A6D001D0DDF /* HNB exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ABA13621809A6D001D0DDF /* HNB exchange.swift */; };
+		B5E793792180992A00B4207C /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E793782180992A00B4207C /* API.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		B594C54A218071DB00E9691F /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		B594C54C2180720A00E9691F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B594C54E2180722500E9691F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		B5ABA13621809A6D001D0DDF /* HNB exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HNB exchange.swift"; sourceTree = "<group>"; };
+		B5E793782180992A00B4207C /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +100,7 @@
 			children = (
 				B594C546218071A300E9691F /* Home */,
 				B594C53321806FF100E9691F /* Base */,
+				B5E79376218098D900B4207C /* Model */,
 				B5051225217F968D00BF6274 /* AppDelegate.swift */,
 				B505122C217F968E00BF6274 /* Assets.xcassets */,
 				B505122E217F968E00BF6274 /* LaunchScreen.storyboard */,
@@ -174,6 +179,23 @@
 				B594C54A218071DB00E9691F /* HomeCoordinator.swift */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		B5E79376218098D900B4207C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B5E793772180991400B4207C /* Repository */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B5E793772180991400B4207C /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				B5E793782180992A00B4207C /* API.swift */,
+				B5ABA13621809A6D001D0DDF /* HNB exchange.swift */,
+			);
+			path = Repository;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,6 +277,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 			);
@@ -263,6 +286,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 			);
@@ -302,10 +326,12 @@
 				B594C54B218071DB00E9691F /* HomeCoordinator.swift in Sources */,
 				B5051226217F968D00BF6274 /* AppDelegate.swift in Sources */,
 				B594C5432180712600E9691F /* String+Extensions.swift in Sources */,
+				B5ABA13721809A6D001D0DDF /* HNB exchange.swift in Sources */,
 				B594C54D2180720A00E9691F /* HomeViewController.swift in Sources */,
 				B594C5382180703600E9691F /* Coordinator.swift in Sources */,
 				B594C5452180718000E9691F /* AppCoordinator.swift in Sources */,
 				B594C53A2180704E00E9691F /* CoordinatorDelegate.swift in Sources */,
+				B5E793792180992A00B4207C /* API.swift in Sources */,
 				B594C53E2180709900E9691F /* GeneralError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
